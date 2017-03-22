@@ -1,0 +1,23 @@
+{
+  "name": "inceptionbot",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Sertac Ozercan",
+  "license": "MIT",
+  "keywords": [
+    "tensorflow",
+    "botframework"
+  ],
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "botbuilder": "^3.7.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "restify": "^4.3.0",
+    "dotenv-extended": "^1.0.4",
+    "tensorflow-serving-node-client": "alexshepard/tensorflow-serving-node-client"
+  }
+}
