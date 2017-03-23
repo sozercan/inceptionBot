@@ -14,10 +14,11 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "botbuilder": "^3.7.0",
+    "dotenv-extended": "^1.0.4",
+    "is-url": "^1.2.2",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "restify": "^4.3.0",
-    "dotenv-extended": "^1.0.4",
     "tensorflow-serving-node-client": "alexshepard/tensorflow-serving-node-client"
   }
 }

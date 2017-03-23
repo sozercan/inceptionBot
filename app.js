@@ -6,6 +6,7 @@ const restify = require('restify');
 const Promise = require('bluebird');
 const request = require('request-promise').defaults({ encoding: null });
 const tensorflowClient = require('tensorflow-serving-node-client')(process.env.TFSERVER);
+const isUrl = require('is-url');
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -25,14 +26,24 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
 
     var msg = session.message;
-    if (msg.attachments.length) {
+
+    if (isUrl(msg.text) || msg.attachments.length) {
 
         // Message with attachment, proceed to download it.
         // Skype & MS Teams attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
         var attachment = msg.attachments[0];
-        var fileDownload = checkRequiresToken(msg)
-            ? requestWithToken(attachment.contentUrl)
-            : request(attachment.contentUrl);
+        var fileDownload;
+
+        if(msg.attachments.length)
+        {
+            fileDownload = checkRequiresToken(msg)
+                ? requestWithToken(attachment.contentUrl)
+                : request(attachment.contentUrl);
+        }
+        else {
+            fileDownload = request(msg.text);
+        }
+
 
         fileDownload.then(
             function (response) {
@@ -44,7 +55,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
                     let result = res[0][0];
 
                     var reply = new builder.Message(session)
-                        .text('I think this is a %s', result);
+                        .text('![]('+msg.text+')\n\nI think this is a %s', result);
                     session.send(reply);
                 });
             });
